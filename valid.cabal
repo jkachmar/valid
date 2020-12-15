@@ -1,0 +1,108 @@
+cabal-version: 3.0
+name:
+  valid
+version:
+  0.0.0
+synopsis:
+  An Either-like data type with an accumulating Applicative instance.
+author:
+  jkachmar
+
+homepage:
+  https://github.com/jkachmar/valid
+bug-reports:
+  https://github.com/jkachmar/valid/issues
+build-type:
+  Simple
+extra-source-files:
+  CHANGELOG.md
+tested-with:
+  GHC==8.8.4
+
+source-repository     head
+  type:               git
+  location:           git@github.com:jkachmar/validation.git
+
+-------------------------------------------------------------------------------
+
+flag bifunctors
+  description: Provides instances for classes defined in bifunctors.
+  default: True
+  manual: False
+
+flag lens
+  description: Provides optics compatible with the lens library.
+  default: True
+  manual: False
+
+flag optics
+  description: Provides optics compatible with the optics library.
+  default: True
+  manual: False
+
+flag semigroupoids
+  description: Provides instances for classes defined in semigroupoids.
+  default: True
+  manual: False
+
+-------------------------------------------------------------------------------
+
+common common
+  default-language: Haskell2010
+  ghc-options:
+    -Weverything
+    -Wno-missing-exported-signatures
+    -Wno-missing-import-lists
+    -Wno-missing-export-lists
+    -Wno-missed-specialisations
+    -Wno-all-missed-specializations
+    -Wno-unsafe
+    -Wno-safe
+    -Wno-missing-local-signatures
+    -Wno-monomorphism-restriction
+
+  default-extensions:
+    NoImplicitPrelude
+
+  build-depends:
+    base >= 4.9,
+    deepseq >= 1.4
+
+  if flag(bifunctors)
+    build-depends: bifunctors >= 5.1
+    cpp-options: -DBIFUNCTORS
+
+  if flag(lens)
+    build-depends: lens >= 4
+    cpp-options: -DLENS
+
+  if flag(optics)
+    build-depends: optics >= 0.3
+    cpp-options: -DOPTICS
+
+  if flag(semigroupoids)
+    build-depends: semigroupoids >= 5
+    cpp-options: -DSEMIGROUPOIDS
+
+-------------------------------------------------------------------------------
+
+library
+  import: common
+  hs-source-dirs: library
+  exposed-modules:
+    Validation
+
+  if flag(lens)
+    exposed-modules: Validation.Lens
+
+  if flag(optics)
+    exposed-modules: Validation.Optics
+
+-------------------------------------------------------------------------------
+
+test-suite test
+  import: common
+  type: exitcode-stdio-1.0
+  hs-source-dirs: tests
+  main-is: Driver.hs
+  build-depends: valid
