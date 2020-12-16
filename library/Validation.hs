@@ -28,16 +28,16 @@ import Data.Functor.Apply (Apply((<.>)))
 
 -------------------------------------------------------------------------------
 
--- |
+-- | TODO(jkachmar): Documentation.
 newtype Validation err result = Validation (Either err result)
   deriving stock (Data, Eq, Generic, Ord, Read, Show)
   deriving newtype (Functor, NFData)
 
--- |
+-- | TODO(jkachmar): Documentation.
 pattern Failure :: err -> Validation err result
 pattern Failure err = Validation (Left err)
 
--- |
+-- | TODO(jkachmar): Documentation.
 pattern Success :: result -> Validation err result
 pattern Success result = Validation (Right result)
 
@@ -115,11 +115,12 @@ instance Alt (Validation err) where
 -------------------------------------------------------------------------------
 -- Utility functions
 
--- |
+-- | TODO(jkachmar): Documentation.
 runValidation :: (err -> out) -> (result -> out) -> Validation err result -> out
 runValidation handleErr _ (Failure err) = handleErr err
 runValidation _ handleResult (Success result) = handleResult result
 
+-- | TODO(jkachmar): Documentation.
 andThen :: Validation err a -> (a -> Validation err b) -> Validation err b
 andThen v f = case v of
   (Failure err) -> Failure err
@@ -127,9 +128,9 @@ andThen v f = case v of
 {-# INLINE andThen #-}
 
 -------------------------------------------------------------------------------
--- Implementation helper functions.
+-- Typeclass instance implementation functions.
 
--- |
+-- | TODO(jkachmar): Documentation.
 apValidation ::
   Semigroup err =>
   Validation err (a -> b) ->
@@ -144,7 +145,7 @@ Success f `apValidation` Success a =
   Success (f a)
 {-# INLINE apValidation #-}
 
--- |
+-- | TODO(jkachmar): Documentation.
 altValidation ::
   Validation err result ->
   Validation err result ->
