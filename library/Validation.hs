@@ -6,7 +6,19 @@
 {-# LANGUAGE InstanceSigs #-}
 {-# LANGUAGE PatternSynonyms #-}
 
-module Validation where
+module Validation
+  ( -- * Data type
+    Validation(Validation),
+    pattern Failure,
+    pattern Success,
+    -- * Constructing validations
+    -- * Functions on validations
+    runValidation,
+    andThen,
+    -- * Misc. typeclass implementation functions
+    apValidation,
+    altValidation,
+  ) where
 
 import Control.Applicative (liftA2)
 import Control.DeepSeq (NFData)
