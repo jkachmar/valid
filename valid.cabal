@@ -21,7 +21,7 @@ tested-with:
 
 source-repository     head
   type:               git
-  location:           git@github.com:jkachmar/validation.git
+  location:           git@github.com:jkachmar/valid.git
 
 -------------------------------------------------------------------------------
 
