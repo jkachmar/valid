@@ -1,3 +1,4 @@
 .direnv/*
 .envrc
 dist-newstyle/*
+cabal.project.local
