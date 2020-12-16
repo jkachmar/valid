@@ -51,12 +51,27 @@ instance Semigroup err => Applicative (Validation err) where
   (<*>) = apValidation
   {-# INLINE (<*>) #-}
 
--- XXX(jkachmar): Is this a reasonable Semigroup instance?
+-- Laws:
+--
+-- Success a <> (Success b <> Success c)
+--   = (Success a <> Success b) <> Success c
+--   = Success (a <> b <> c)
+--
+-- Success a <> (Failure e <> Success c)
+--   = (Success a <> Failure e) <> Success c
+--   = Failure e
+--
+-- Failure e0 <> (Failure e1 <> Success c)
+--   = (Failure e0 <> Failure e1) <> Success c
+--   = Failure (e0 <> e1)
 instance (Semigroup err, Semigroup result) => Semigroup (Validation err result) where
   (<>) = liftA2 (<>)
   {-# INLINE (<>) #-}
 
--- XXX(jkachmar): Is this a reasonable Monoid instance?
+-- Laws:
+--
+-- Sucess a <> Success mempty = Success a
+-- Failure e <> Success mempty = Failure e
 instance (Semigroup err, Monoid result) => Monoid (Validation err result) where
   mempty = Success mempty
   {-# INLINE mempty #-}
