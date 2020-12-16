@@ -1,0 +1,6 @@
+cradle:
+  cabal:
+    - path: "./library"
+      component: "valid:lib:valid"
+    - path: "./tests"
+      component: "valid:test"
