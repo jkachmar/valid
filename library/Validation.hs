@@ -26,6 +26,16 @@ import Data.Functor.Alt (Alt((<!>)))
 import Data.Functor.Apply (Apply((<.>)))
 #endif
 
+#ifdef LENS
+-- Re-export lens-compatible typeclass instances.
+import Validation.Lens as Lens ()
+#endif
+
+#ifdef OPTICS
+-- Re-export optics-compatible typeclass instances.
+import Validation.Optics as Optics ()
+#endif
+
 -------------------------------------------------------------------------------
 
 -- | TODO(jkachmar): Documentation.
