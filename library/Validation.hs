@@ -98,13 +98,13 @@ instance (Semigroup err, Monoid result) => Monoid (Validation err result) where
   {-# INLINE mempty #-}
 
 instance Foldable (Validation err) where
-  foldr foldResult accum (Success result) = foldResult result accum
   foldr _ accum (Failure _err) = accum
+  foldr foldResult accum (Success result) = foldResult result accum
   {-# INLINE foldr #-}
 
 instance Traversable (Validation err) where
-  traverse traverseResult (Success result) = Success <$> traverseResult result
   traverse _ (Failure err) = pure $ Failure err
+  traverse traverseResult (Success result) = Success <$> traverseResult result
   {-# INLINE traverse #-}
 
 -------------------------------------------------------------------------------
@@ -118,10 +118,8 @@ instance Bifunctor Validation where
   {-# INLINE bimap #-}
 
 instance Bifoldable Validation where
-  bifoldr foldErr _ accum (Failure err) =
-    foldErr err accum
-  bifoldr _ foldResult accum (Success result) =
-    foldResult result accum
+  bifoldr foldErr _ accum (Failure err) = foldErr err accum
+  bifoldr _ foldResult accum (Success result) = foldResult result accum
   {-# INLINE bifoldr #-}
 
 instance Bitraversable Validation where
